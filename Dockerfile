@@ -1,10 +1,6 @@
 ARG ARCH=
 FROM ${ARCH}ubuntu:focal
 
-ENV GOROOT /usr/lib/go
-ENV GOPATH /data/golang
-ENV GO111MODULE auto
-
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
 	apt-get update; \
