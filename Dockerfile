@@ -24,6 +24,12 @@ RUN cd /src/downloads; \
 	rm -rf /src/*; \
 	echo 'Ok'
 	
+RUN cd ~; \
+	echo n |npm install -g @angular/cli; \
+	npm install -g parcel-bundler; \
+	npm install -g @vue/cli; \
+	echo 'Ok'
+	
 ADD files /src/files
 RUN cd ~; \
 	cp -rf /src/files/etc/* /etc/; \
