@@ -14,3 +14,7 @@ if [ ! -d /data/home ]; then
 	mkdir -p /data/home
 	chown -R www-data:www-data /data/home
 fi
+if [ ! -z $TZ ]; then
+	sed -i "s|date.timezone = .*|date.timezone = $TZ|g" /etc/php/7.4/cli/php.ini
+	sed -i "s|date.timezone = .*|date.timezone = $TZ|g" /etc/php/7.4/fpm/php.ini
+fi

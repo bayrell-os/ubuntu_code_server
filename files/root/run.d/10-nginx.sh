@@ -8,3 +8,7 @@ fi
 if [ ! -z $DOCUMENT_ROOT ]; then
 	sed -i "s|root /var/www/html;|root $DOCUMENT_ROOT;|g" /etc/nginx/sites-available/default
 fi
+if [ ! -z $NGINX_CONF ]; then
+	rm /etc/nginx/sites-available/default
+	ln -s $NGINX_CONF /etc/nginx/sites-available/default
+fi
