@@ -64,6 +64,9 @@ RUN cd ~; \
 	
 ADD files /src/files
 RUN cd ~; \
+	echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers; \
+	groupadd -r wheel; \
+	usermod -a -G wheel www-data; \
 	cp -rf /src/files/etc/* /etc/; \
 	cp -rf /src/files/root/* /root/; \
 	cp -rf /src/files/usr/* /usr/; \
