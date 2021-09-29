@@ -14,6 +14,9 @@ RUN cd ~; \
 	ln -sf /dev/stdout /var/log/nginx/access.log; \
 	ln -sf /dev/stderr /var/log/nginx/error.log; \
 	ln -sf /dev/stdout /var/log/nginx/php_error.log; \
+	echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers; \
+	groupadd -r wheel; \
+	usermod -a -G wheel www-data; \
 	echo 'Ok'
 	
 ADD downloads /src/downloads
@@ -31,6 +34,8 @@ RUN cd ~; \
 	echo n |npm install -g @angular/cli; \
 	npm install -g parcel-bundler; \
 	npm install -g @vue/cli; \
+	npm install -g typescript; \
+	npm install -g dts-gen; \
 	echo 'Ok'
 	
 RUN cd ~; \
@@ -64,9 +69,6 @@ RUN cd ~; \
 	
 ADD files /src/files
 RUN cd ~; \
-	echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers; \
-	groupadd -r wheel; \
-	usermod -a -G wheel www-data; \
 	cp -rf /src/files/etc/* /etc/; \
 	cp -rf /src/files/root/* /root/; \
 	cp -rf /src/files/usr/* /usr/; \
