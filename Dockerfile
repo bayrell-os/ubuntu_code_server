@@ -8,7 +8,7 @@ RUN cd ~; \
 	apt-get install -y --no-install-recommends mc less nano wget pv zip unzip supervisor net-tools sudo curl gnupg nginx git ca-certificates python3-pip python3-venv; \
 	sed -i "s|www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin|www-data:x:33:33:www-data:/data/home:/bin/bash|g" /etc/passwd; \
 	curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -; \
-	echo 'deb https://deb.nodesource.com/node_14.x focal main' > /etc/apt/sources.list.d/nodesource.list; \
+	echo 'deb https://deb.nodesource.com/node_16.x focal main' > /etc/apt/sources.list.d/nodesource.list; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends nodejs; \
 	ln -sf /dev/stdout /var/log/nginx/access.log; \
@@ -28,14 +28,6 @@ RUN cd /src/downloads; \
 	ln -sf /usr/lib/go/bin/go /usr/bin/go; \
 	ln -sf /usr/lib/go/bin/gofmt /usr/bin/gofmt; \
 	rm -rf /src/*; \
-	echo 'Ok'
-	
-RUN cd ~; \
-	echo n |npm install -g @angular/cli; \
-	npm install -g parcel-bundler; \
-	npm install -g @vue/cli; \
-	npm install -g typescript; \
-	npm install -g dts-gen; \
 	echo 'Ok'
 	
 RUN cd ~; \
