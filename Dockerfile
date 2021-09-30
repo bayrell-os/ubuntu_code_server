@@ -5,7 +5,7 @@ RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends apt-utils; \
-	apt-get install -y --no-install-recommends mc less nano wget pv zip unzip supervisor net-tools sudo curl gnupg nginx git ca-certificates python3-pip python3-venv; \
+	apt-get install -y --no-install-recommends mc less nano wget pv zip unzip supervisor net-tools iputils-ping sudo curl gnupg nginx git ca-certificates python3-pip python3-venv; \
 	sed -i "s|www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin|www-data:x:33:33:www-data:/data/home:/bin/bash|g" /etc/passwd; \
 	curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -; \
 	echo 'deb https://deb.nodesource.com/node_16.x focal main' > /etc/apt/sources.list.d/nodesource.list; \
