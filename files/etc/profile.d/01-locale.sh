@@ -1,4 +1,4 @@
-LANG="en_US.UTF-8"
+LANG="en_US.utf8"
 LANGUAGE="en_US:en"
 export LANG
 export LANGUAGE

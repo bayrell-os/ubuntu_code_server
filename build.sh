@@ -6,7 +6,7 @@ BASE_PATH=`dirname $SCRIPT_PATH`
 
 RETVAL=0
 VERSION=3.11.0
-SUBVERSION=4
+SUBVERSION=5
 TAG=`date '+%Y%m%d_%H%M%S'`
 
 case "$1" in
@@ -22,16 +22,20 @@ case "$1" in
 	;;
 	
 	test)
-		docker build ./ -t bayrell/ubuntu_code_server:$VERSION-$SUBVERSION-$TAG --file Dockerfile
+		docker build ./ -t bayrell/ubuntu_code_server:$VERSION-$SUBVERSION-$TAG --file stages/Dockerfile
 	;;
 	
 	amd64)
 		docker build ./ -t bayrell/ubuntu_code_server:$VERSION-$SUBVERSION-amd64 \
-			--file Dockerfile --build-arg ARCH=amd64/
+			--file stages/Dockerfile --build-arg ARCH=amd64/
+	;;
+	
+	stage0)
+		docker build ./ -t bayrell/ubuntu_code_server:stage0 --file stages/Dockerfile0
 	;;
 	
 	*)
-		echo "Usage: $0 {download|amd64|test}"
+		echo "Usage: $0 {download|amd64|test|stage0}"
 		RETVAL=1
 
 esac
