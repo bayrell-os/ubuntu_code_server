@@ -37,6 +37,7 @@ RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
 	curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -; \
 	echo 'deb https://deb.nodesource.com/node_16.x focal main' > /etc/apt/sources.list.d/nodesource.list; \
+	apt-get update; \
 	apt-get install -y --no-install-recommends nodejs; \
 	apt-get clean all; \
 	echo 'Ok'
@@ -82,6 +83,12 @@ RUN cd ~; \
 	echo 'php_admin_value[session.save_path] = /data/php/session' >> /etc/php/7.4/fpm/pool.d/www.conf; \
 	echo 'php_admin_value[soap.wsdl_cache_dir] = /data/php/wsdlcache' >> /etc/php/7.4/fpm/pool.d/www.conf; \
 	ln -sf /dev/stderr /var/log/nginx/php_error.log; \
+	echo 'Ok'
+	
+RUN cd ~; \
+	npm install -g npm@8.4.0; \
+	npm install -g @vue/cli; \
+	npm install -g webpack; \
 	echo 'Ok'
 	
 ADD files /src/files
