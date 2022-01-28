@@ -87,7 +87,7 @@ RUN cd ~; \
 	
 RUN cd ~; \
 	npm install -g npm@8.4.0; \
-	npm install -g @vue/cli; \
+	npm install -g @vue/cli @vue/cli-service-global; \
 	npm install -g webpack; \
 	echo 'Ok'
 	
