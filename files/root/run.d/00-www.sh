@@ -4,6 +4,9 @@ fi
 if [ ! -z $WWW_GID ]; then
 	sed -i "s|:33:|:$WWW_GID:|g" /etc/group
 fi
+if [ ! -z $DOCKER_GID ]; then
+	sed -i "s|:101:|:$DOCKER_GID:|g" /etc/group
+fi
 if [ ! -d /data/home/go ]; then
 	mkdir -p /data/home
 	chown -R www-data:www-data /data/home

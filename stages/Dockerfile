@@ -1,5 +1,5 @@
 ARG ARCH=
-FROM ${ARCH}ubuntu:focal
+FROM ${ARCH}ubuntu:focal-20220302
 
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
@@ -22,7 +22,7 @@ RUN cd ~; \
 	apt-get install -y --no-install-recommends mc less nano wget pv zip \
 		unzip supervisor net-tools iputils-ping sudo curl gnupg nginx \
 		git ca-certificates python3-pip python3-venv make build-essential \
-		mercurial; \
+		mercurial docker.io; \
 	apt-get clean all; \
 	sed -i "s|www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin|www-data:x:33:33:www-data:/data/home:/bin/bash|g" /etc/passwd; \
 	ln -sf /dev/stdout /var/log/nginx/access.log; \
@@ -86,8 +86,13 @@ RUN cd ~; \
 	echo 'Ok'
 	
 RUN cd ~; \
-	npm install -g npm@8.4.0; \
+	npm set registry https://registry.npmjs.org/; \
+	echo 'npm set registry https://registry.npmmirror.com/' > /dev/null; \
+	echo 'Update npm'; \
+	npm install -g npm@8.5.3; \
+	echo 'Install vue'; \
 	npm install -g @vue/cli @vue/cli-service-global; \
+	echo 'Install webpack'; \
 	npm install -g webpack; \
 	echo 'Ok'
 	
@@ -99,6 +104,7 @@ RUN cd ~; \
 	yes | cp -rf /src/files/var/* /var/; \
 	rm -rf /src/*; \
 	chmod +x /root/run.sh; \
+	usermod -a -G docker www-data; \
 	echo 'Ok'
 
 CMD ["/root/run.sh"]
