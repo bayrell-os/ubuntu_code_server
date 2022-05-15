@@ -1,5 +1,8 @@
-ARG ARCH=
-FROM ${ARCH}ubuntu:focal-20220302
+ARG ARCH=amd64
+FROM ${ARCH}/ubuntu:focal-20220426
+
+ARG ARCH
+ENV ARCH=${ARCH}
 
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
@@ -42,15 +45,18 @@ RUN cd ~; \
 	apt-get clean all; \
 	echo 'Ok'
 	
-ADD downloads /src/downloads
+COPY downloads/code-server-3.11.0-linux-$ARCH.tar.gz /src/downloads/code-server.tar.gz
+COPY downloads/go1.16.6.linux-$ARCH.tar.gz /src/downloads/go.tar.gz
+
 RUN cd /src/downloads; \
-	tar -xzf code-server-3.11.0-linux-amd64.tar.gz; \
-	cp -r code-server-3.11.0-linux-amd64 /usr/lib/code-server; \
-	tar -xzf go1.16.6.linux-amd64.tar.gz; \
+	tar -xzf code-server.tar.gz; \
+	mv code-server-3.11.0-linux-* code-server; \
+	tar -xzf go.tar.gz; \
+	cp -r code-server /usr/lib/code-server; \
 	cp -r go /usr/lib/go; \
 	ln -sf /usr/lib/go/bin/go /usr/bin/go; \
 	ln -sf /usr/lib/go/bin/gofmt /usr/bin/gofmt; \
-	rm -rf /src/*; \
+	rm -rf /src/downloads; \
 	echo 'Ok'
 	
 RUN cd ~; \
@@ -89,7 +95,7 @@ RUN cd ~; \
 	npm set registry https://registry.npmjs.org/; \
 	echo 'npm set registry https://registry.npmmirror.com/' > /dev/null; \
 	echo 'Update npm'; \
-	npm install -g npm@8.5.3; \
+	npm install -g npm@8.10.0; \
 	echo 'Install vue'; \
 	npm install -g @vue/cli @vue/cli-service-global; \
 	echo 'Install webpack'; \
