@@ -18,6 +18,18 @@ RUN cd ~; \
 	ln -sf /dev/stdout /var/log/nginx/access.log; \
 	ln -sf /dev/stderr /var/log/nginx/error.log; \
 	ln -sf /dev/stdout /var/log/nginx/php_error.log; \
+	test -f /usr/lib/jvm/java-8-openjdk-amd64/bin/java && \
+		ln -sf /usr/lib/jvm/java-8-openjdk-amd64/bin/java /usr/bin/java8; \
+	test -f /usr/lib/jvm/java-11-openjdk-amd64/bin/java && \
+		ln -sf /usr/lib/jvm/java-11-openjdk-amd64/bin/java /usr/bin/java11; \
+	test -f /usr/lib/jvm/java-17-openjdk-amd64/bin/java && \
+		ln -sf /usr/lib/jvm/java-17-openjdk-amd64/bin/java /usr/bin/java17; \
+	test -f /usr/lib/jvm/java-8-openjdk-arm64/bin/java && \
+		ln -sf /usr/lib/jvm/java-8-openjdk-arm64/bin/java /usr/bin/java8; \
+	test -f /usr/lib/jvm/java-11-openjdk-arm64/bin/java && \
+		ln -sf /usr/lib/jvm/java-11-openjdk-arm64/bin/java /usr/bin/java11; \
+	test -f /usr/lib/jvm/java-17-openjdk-arm64/bin/java && \
+		ln -sf /usr/lib/jvm/java-17-openjdk-arm64/bin/java /usr/bin/java17; \
 	echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers; \
 	groupadd -r wheel; \
 	usermod -a -G wheel www-data; \
