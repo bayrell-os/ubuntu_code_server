@@ -2,7 +2,7 @@
 <template>
 	<uid>org.bayrell.ubuntu_code_server</uid>
 	<name>Code server</name>
-	<version>3.11.0-9</version>
+	<version>3.11.0-10</version>
 	<date>2022-05-15T18:56:00+06:00</date>
 	<maintainer>Ildar &lt;ildar@bayrell.org&gt;</maintainer>
 	<marketplace>https://cloud.bayrell.org/</marketplace>
@@ -16,7 +16,7 @@
 	<yaml>
 		<services>
 			<_var_app_name_>
-				<image>docker.io/bayrell/ubuntu_code_server:3.11.0-9</image>
+				<image>docker.io/bayrell/ubuntu_code_server:3.11.0-10</image>
 				<hostname>{{.Service.Name}}.{{.Task.ID}}.local</hostname>
 				<environment>
 					<WWW_UID>_var_www_uid_</WWW_UID>

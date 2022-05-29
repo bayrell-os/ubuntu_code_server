@@ -7,7 +7,7 @@ BASE_PATH=`dirname $SCRIPT_PATH`
 RETVAL=0
 IMAGE="ubuntu_code_server"
 VERSION=3.11.0
-SUBVERSION=9
+SUBVERSION=10
 TAG=`date '+%Y%m%d_%H%M%S'`
 
 case "$1" in

@@ -1,31 +1,18 @@
 ARG ARCH=amd64
-FROM ${ARCH}/ubuntu:focal-20220426
+FROM bayrell/ubuntu:focal-${ARCH}
 
-ARG ARCH
-ENV ARCH=${ARCH}
-
-RUN cd ~; \
-	export DEBIAN_FRONTEND='noninteractive'; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends apt-utils locales tzdata debconf-utils; \
-	ln -snf /usr/share/zoneinfo/Asia/Almaty /etc/localtime; \
-	echo "Asia/Almaty" > /etc/timezone; \
-	locale-gen en_US en_US.UTF-8 ru_RU.UTF-8; \
-	update-locale LANG=en_US.utf8 LANGUAGE=en_US:en; \
-	echo "LANG="en_US.utf8" \n\
-LANGUAGE="en_US:en" \n\
-export LANG \n\
-export LANGUAGE\n" >> /etc/bash.bashrc; \
-	apt-get clean all; \
-	echo 'Ok'
+ARG APT_MIRROR
 
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
+	/etc/apt/apt.mirror/mirror.install.sh; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends mc less nano wget pv zip \
 		unzip supervisor net-tools iputils-ping sudo curl gnupg nginx \
 		git ca-certificates python3-pip python3-venv make build-essential \
-		mercurial docker.io; \
+		docker.io python3-dev openjdk-8-jre openjdk-11-jre openjdk-17-jre; \
+	pip3 install mercurial; \
+	/etc/apt/apt.mirror/mirror.restore.sh; \
 	apt-get clean all; \
 	sed -i "s|www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin|www-data:x:33:33:www-data:/data/home:/bin/bash|g" /etc/passwd; \
 	ln -sf /dev/stdout /var/log/nginx/access.log; \
@@ -38,10 +25,12 @@ RUN cd ~; \
 	
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
+	/etc/apt/apt.mirror/mirror.install.sh; \
 	curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -; \
 	echo 'deb https://deb.nodesource.com/node_16.x focal main' > /etc/apt/sources.list.d/nodesource.list; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends nodejs; \
+	/etc/apt/apt.mirror/mirror.restore.sh; \
 	apt-get clean all; \
 	echo 'Ok'
 	
@@ -61,11 +50,14 @@ RUN cd /src/downloads; \
 	
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
+	/etc/apt/apt.mirror/mirror.install.sh; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends php7.4 php7.4-fpm php7.4-mysql \
 		php7.4-json php7.4-curl php7.4-curl php7.4-xml php7.4-xmlrpc \
 		php7.4-mysql php7.4-pgsql php7.4-opcache php7.4-mbstring \
 		php7.4-mbstring php7.4-soap php7.4-intl; \
+	/etc/apt/apt.mirror/mirror.restore.sh; \
+	apt-get clean all; \
 	sed -i 's|;date.timezone =.*|date.timezone = UTC|g' /etc/php/7.4/cli/php.ini; \
 	sed -i 's|short_open_tag =.*|short_open_tag = On|g' /etc/php/7.4/cli/php.ini; \
 	sed -i 's|display_errors =.*|display_errors = On|g' /etc/php/7.4/cli/php.ini; \
