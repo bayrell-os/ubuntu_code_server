@@ -10,6 +10,10 @@ VERSION=3.11.0
 SUBVERSION=10
 TAG=`date '+%Y%m%d_%H%M%S'`
 
+if [ "$APT_MIRROR" = "" ]; then
+	APT_MIRROR=""
+fi
+
 case "$1" in
 	
 	download)
@@ -30,32 +34,32 @@ case "$1" in
 	
 	test-amd64)
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-amd64 \
-			--file stages/Dockerfile --build-arg ARCH=amd64
+			--file stages/Dockerfile --build-arg ARCH=amd64 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	test-arm64v8)
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-arm64v8 \
-			--file stages/Dockerfile --build-arg ARCH=arm64v8
+			--file stages/Dockerfile --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	stage0-amd64)
 		docker build ./ -t bayrell/$IMAGE:stage0-$TAG-amd64 \
-			--file stages/Dockerfile0 --build-arg ARCH=amd64
+			--file stages/Dockerfile0 --build-arg ARCH=amd64 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	stage0-arm64v8)
 		docker build ./ -t bayrell/$IMAGE:stage0-$TAG-arm64v8 \
-			--file stages/Dockerfile0 --build-arg ARCH=arm64v8
+			--file stages/Dockerfile0 --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	amd64)
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-amd64 \
-			--file stages/Dockerfile --build-arg ARCH=amd64
+			--file stages/Dockerfile --build-arg ARCH=amd64 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	arm64v8)
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-arm64v8 \
-			--file stages/Dockerfile --build-arg ARCH=arm64v8
+			--file stages/Dockerfile --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	manifest)
