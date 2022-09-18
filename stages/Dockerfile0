@@ -1,23 +1,26 @@
 ARG ARCH=amd64
-FROM bayrell/ubuntu:focal-${ARCH}
+FROM bayrell/ubuntu:jammy-${ARCH}
 
 ARG APT_MIRROR
 
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
 	/etc/apt/apt.mirror/mirror.install.sh; \
+	wget -O - https://openresty.org/package/pubkey.gpg | sudo gpg --dearmor -o /usr/share/keyrings/openresty.gpg; \
+	echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/ubuntu jammy main" | sudo tee /etc/apt/sources.list.d/openresty.list > /dev/null; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends mc less nano wget pv zip \
-		unzip supervisor net-tools iputils-ping sudo curl gnupg nginx \
+		unzip supervisor net-tools iputils-ping sudo curl gnupg \
+		openresty lua-cjson lua-md5 lua-curl luarocks php \
 		git ca-certificates python3-pip python3-venv make build-essential \
 		docker.io python3-dev openjdk-8-jre openjdk-11-jre openjdk-17-jre; \
+	luarocks install lua-resty-jwt; \
 	pip3 install mercurial; \
 	/etc/apt/apt.mirror/mirror.restore.sh; \
 	apt-get clean all; \
 	sed -i "s|www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin|www-data:x:33:33:www-data:/data/home:/bin/bash|g" /etc/passwd; \
-	ln -sf /dev/stdout /var/log/nginx/access.log; \
-	ln -sf /dev/stderr /var/log/nginx/error.log; \
-	ln -sf /dev/stdout /var/log/nginx/php_error.log; \
+	ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log; \
+	ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log; \
 	test -f /usr/lib/jvm/java-8-openjdk-amd64/bin/java && \
 		ln -sf /usr/lib/jvm/java-8-openjdk-amd64/bin/java /usr/bin/java8; \
 	test -f /usr/lib/jvm/java-11-openjdk-amd64/bin/java && \
@@ -34,5 +37,3 @@ RUN cd ~; \
 	groupadd -r wheel; \
 	usermod -a -G wheel www-data; \
 	echo 'Ok'
-	
-

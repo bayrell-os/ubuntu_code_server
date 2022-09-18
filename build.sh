@@ -7,7 +7,7 @@ BASE_PATH=`dirname $SCRIPT_PATH`
 RETVAL=0
 IMAGE="ubuntu_code_server"
 VERSION=3.11.0
-SUBVERSION=10
+SUBVERSION=11
 TAG=`date '+%Y%m%d_%H%M%S'`
 
 if [ "$APT_MIRROR" = "" ]; then
@@ -34,12 +34,12 @@ case "$1" in
 	
 	test-amd64)
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-amd64 \
-			--file stages/Dockerfile --build-arg ARCH=amd64 --build-arg APT_MIRROR=$APT_MIRROR
+			--file Dockerfile --build-arg ARCH=amd64 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	test-arm64v8)
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-arm64v8 \
-			--file stages/Dockerfile --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
+			--file Dockerfile --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	stage0-amd64)
@@ -54,12 +54,12 @@ case "$1" in
 	
 	amd64)
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-amd64 \
-			--file stages/Dockerfile --build-arg ARCH=amd64 --build-arg APT_MIRROR=$APT_MIRROR
+			--file Dockerfile --build-arg ARCH=amd64 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	arm64v8)
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-arm64v8 \
-			--file stages/Dockerfile --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
+			--file Dockerfile --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	manifest)

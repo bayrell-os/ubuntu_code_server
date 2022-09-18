@@ -1,23 +1,26 @@
 ARG ARCH=amd64
-FROM bayrell/ubuntu:focal-${ARCH}
+FROM bayrell/ubuntu:jammy-${ARCH}
 
 ARG APT_MIRROR
 
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
 	/etc/apt/apt.mirror/mirror.install.sh; \
+	wget -O - https://openresty.org/package/pubkey.gpg | sudo gpg --dearmor -o /usr/share/keyrings/openresty.gpg; \
+	echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/ubuntu jammy main" | sudo tee /etc/apt/sources.list.d/openresty.list > /dev/null; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends mc less nano wget pv zip \
-		unzip supervisor net-tools iputils-ping sudo curl gnupg nginx \
+		unzip supervisor net-tools iputils-ping sudo curl gnupg \
+		openresty lua-cjson lua-md5 lua-curl luarocks php \
 		git ca-certificates python3-pip python3-venv make build-essential \
 		docker.io python3-dev openjdk-8-jre openjdk-11-jre openjdk-17-jre; \
+	luarocks install lua-resty-jwt; \
 	pip3 install mercurial; \
 	/etc/apt/apt.mirror/mirror.restore.sh; \
 	apt-get clean all; \
 	sed -i "s|www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin|www-data:x:33:33:www-data:/data/home:/bin/bash|g" /etc/passwd; \
-	ln -sf /dev/stdout /var/log/nginx/access.log; \
-	ln -sf /dev/stderr /var/log/nginx/error.log; \
-	ln -sf /dev/stdout /var/log/nginx/php_error.log; \
+	ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log; \
+	ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log; \
 	test -f /usr/lib/jvm/java-8-openjdk-amd64/bin/java && \
 		ln -sf /usr/lib/jvm/java-8-openjdk-amd64/bin/java /usr/bin/java8; \
 	test -f /usr/lib/jvm/java-11-openjdk-amd64/bin/java && \
@@ -61,49 +64,10 @@ RUN cd /src/downloads; \
 	echo 'Ok'
 	
 RUN cd ~; \
-	export DEBIAN_FRONTEND='noninteractive'; \
-	/etc/apt/apt.mirror/mirror.install.sh; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends php7.4 php7.4-fpm php7.4-mysql \
-		php7.4-json php7.4-curl php7.4-curl php7.4-xml php7.4-xmlrpc \
-		php7.4-mysql php7.4-pgsql php7.4-opcache php7.4-mbstring \
-		php7.4-mbstring php7.4-soap php7.4-intl; \
-	/etc/apt/apt.mirror/mirror.restore.sh; \
-	apt-get clean all; \
-	sed -i 's|;date.timezone =.*|date.timezone = UTC|g' /etc/php/7.4/cli/php.ini; \
-	sed -i 's|short_open_tag =.*|short_open_tag = On|g' /etc/php/7.4/cli/php.ini; \
-	sed -i 's|display_errors =.*|display_errors = On|g' /etc/php/7.4/cli/php.ini; \
-	sed -i 's|error_reporting =.*|display_errors = E_ALL|g' /etc/php/7.4/cli/php.ini; \
-	sed -i 's|max_execution_time =.*|max_execution_time = -1|g' /etc/php/7.4/cli/php.ini; \
-	sed -i 's|;date.timezone =.*|date.timezone = UTC|g' /etc/php/7.4/fpm/php.ini; \
-	sed -i 's|short_open_tag =.*|short_open_tag = On|g' /etc/php/7.4/fpm/php.ini; \
-	sed -i 's|display_errors =.*|display_errors = On|g' /etc/php/7.4/fpm/php.ini; \
-	sed -i 's|error_reporting =.*|display_errors = E_ALL|g' /etc/php/7.4/fpm/php.ini; \
-	sed -i 's|listen =.*|listen = /var/run/php7.4-fpm.sock|g' /etc/php/7.4/fpm/pool.d/www.conf; \
-	sed -i 's|;clear_env =.*|clear_env = no|g' /etc/php/7.4/fpm/pool.d/www.conf; \
-	sed -i 's|;catch_workers_output =.*|catch_workers_output = yes|g' /etc/php/7.4/fpm/pool.d/www.conf; \
-	echo 'php_admin_value[error_log] = /var/log/nginx/php_error.log' >> /etc/php/7.4/fpm/pool.d/www.conf; \
-	echo 'php_admin_value[memory_limit] = 128M' >> /etc/php/7.4/fpm/pool.d/www.conf; \
-	echo 'php_admin_value[post_max_size] = 128M' >> /etc/php/7.4/fpm/pool.d/www.conf; \
-	echo 'php_admin_value[upload_max_filesize] = 128M' >> /etc/php/7.4/fpm/pool.d/www.conf; \
-	echo 'php_admin_value[file_uploads] = on' >> /etc/php/7.4/fpm/pool.d/www.conf; \
-	echo 'php_admin_value[upload_tmp_dir] = /tmp' >> /etc/php/7.4/fpm/pool.d/www.conf; \
-	echo 'php_admin_value[precision] = 16' >> /etc/php/7.4/fpm/pool.d/www.conf; \
-	echo 'php_admin_value[max_execution_time] = 30' >> /etc/php/7.4/fpm/pool.d/www.conf; \
-	echo 'php_admin_value[session.save_path] = /data/php/session' >> /etc/php/7.4/fpm/pool.d/www.conf; \
-	echo 'php_admin_value[soap.wsdl_cache_dir] = /data/php/wsdlcache' >> /etc/php/7.4/fpm/pool.d/www.conf; \
-	ln -sf /dev/stderr /var/log/nginx/php_error.log; \
-	echo 'Ok'
-	
-RUN cd ~; \
 	npm set registry https://registry.npmjs.org/; \
 	echo 'npm set registry https://registry.npmmirror.com/' > /dev/null; \
 	echo 'Update npm'; \
 	npm install -g npm@8.10.0; \
-	echo 'Install vue'; \
-	npm install -g @vue/cli @vue/cli-service-global; \
-	echo 'Install webpack'; \
-	npm install -g webpack; \
 	echo 'Ok'
 	
 ADD files /src/files
