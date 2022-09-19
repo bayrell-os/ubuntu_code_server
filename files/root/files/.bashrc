@@ -4,5 +4,5 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-PATH="/data/home/node_modules/.bin:$PATH"
+PATH="/data/home/node_modules/.bin:/data/home/bin:$PATH"
 export PATH

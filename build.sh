@@ -23,7 +23,7 @@ case "$1" in
 		fi
 		if [ ! -f downloads/code-server-3.11.0-linux-arm64v8.tar.gz ]; then
 			wget https://github.com/coder/code-server/releases/download/v3.11.0/code-server-3.11.0-linux-arm64.tar.gz -O "downloads/code-server-3.11.0-linux-arm64v8.tar.gz"
-		fis
+		fi
 	;;
 	
 	test-amd64)

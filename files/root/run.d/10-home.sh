@@ -23,3 +23,7 @@ if [ ! -d /data/home/node_modules/.bin ]; then
 	mkdir -p /data/home/node_modules/.bin
 	chown -R $WWW_UID:$WWW_GID /data/home/node_modules
 fi
+if [ ! -d /data/home/bin ]; then
+	mkdir -p /data/home/bin
+	chown -R $WWW_UID:$WWW_GID /data/home/bin
+fi
