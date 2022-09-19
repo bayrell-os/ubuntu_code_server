@@ -11,7 +11,7 @@ RUN cd ~; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends mc less nano wget pv zip \
 		unzip supervisor net-tools iputils-ping sudo curl gnupg \
-		openresty lua-cjson lua-md5 lua-curl luarocks php \
+		openresty lua-cjson lua-md5 lua-curl luarocks php jq \
 		git ca-certificates python3-pip python3-venv make build-essential \
 		docker.io python3-dev openjdk-8-jre openjdk-11-jre openjdk-17-jre; \
 	luarocks install lua-resty-jwt; \
@@ -47,37 +47,19 @@ RUN cd ~; \
 	apt-get install -y --no-install-recommends nodejs; \
 	/etc/apt/apt.mirror/mirror.restore.sh; \
 	apt-get clean all; \
-	echo 'Ok'
-	
-COPY downloads/code-server-3.11.0-linux-$ARCH.tar.gz /src/downloads/code-server.tar.gz
-COPY downloads/go1.16.6.linux-$ARCH.tar.gz /src/downloads/go.tar.gz
-
-RUN cd /src/downloads; \
-	tar -xzf code-server.tar.gz; \
-	mv code-server-3.11.0-linux-* code-server; \
-	tar -xzf go.tar.gz; \
-	cp -r code-server /usr/lib/code-server; \
-	cp -r go /usr/lib/go; \
-	ln -sf /usr/lib/go/bin/go /usr/bin/go; \
-	ln -sf /usr/lib/go/bin/gofmt /usr/bin/gofmt; \
-	rm -rf /src/downloads; \
-	echo 'Ok'
-	
-RUN cd ~; \
 	npm set registry https://registry.npmjs.org/; \
 	echo 'npm set registry https://registry.npmmirror.com/' > /dev/null; \
 	echo 'Update npm'; \
-	npm install -g npm@8.10.0; \
+	npm install -g npm@8.19.2; \
+	npm install -g vsce; \
 	echo 'Ok'
-	
-ADD files /src/files
+
+ADD downloads/code-server-3.11.0-linux-$ARCH.tar.gz /srv
+COPY files /	
+
 RUN cd ~; \
-	yes | cp -rf /src/files/etc/* /etc/; \
-	yes | cp -rf /src/files/root/* /root/; \
-	yes | cp -rf /src/files/usr/* /usr/; \
-	yes | cp -rf /src/files/var/* /var/; \
-	rm -rf /src/*; \
-	chmod +x /root/run.sh; \
+	ln -s /srv/code-server-3.11.0-linux-$ARCH /usr/lib/code-server; \
+	chmod +x /root/*.sh; \
 	usermod -a -G docker www-data; \
 	echo 'Ok'
 
