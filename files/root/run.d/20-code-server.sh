@@ -14,6 +14,6 @@ if [ ! -d /data/home/code/User ]; then
 	chown www-data:www-data /data/home/code/User
 fi
 
-if [ ! "$CODE_SERVER_ENABLE_ADMIN" = "1" ]; then
+if [ "$CODE_SERVER_ENABLE_ADMIN" = "1" ]; then
 	sed -i 's|127.0.0.1:8000|0.0.0.0:8000|g' /etc/supervisor.d/code-server.ini
 fi
