@@ -23,21 +23,17 @@ case "$1" in
 		fi
 		if [ ! -f downloads/code-server-3.11.0-linux-arm64v8.tar.gz ]; then
 			wget https://github.com/coder/code-server/releases/download/v3.11.0/code-server-3.11.0-linux-arm64.tar.gz -O "downloads/code-server-3.11.0-linux-arm64v8.tar.gz"
-		fi
-		if [ ! -f downloads/go1.16.6.linux-amd64.tar.gz ]; then
-			wget https://golang.org/dl/go1.16.6.linux-amd64.tar.gz -O "downloads/go1.16.6.linux-amd64.tar.gz"
-		fi
-		if [ ! -f downloads/go1.16.6.linux-arm64v8.tar.gz ]; then
-			wget https://golang.org/dl/go1.16.6.linux-arm64.tar.gz -O "downloads/go1.16.6.linux-arm64v8.tar.gz"
-		fi
+		fis
 	;;
 	
 	test-amd64)
+		export DOCKER_DEFAULT_PLATFORM=linux/amd64
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-amd64 \
 			--file Dockerfile --build-arg ARCH=amd64 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	test-arm64v8)
+		export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-arm64v8 \
 			--file Dockerfile --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
@@ -53,11 +49,13 @@ case "$1" in
 	;;
 	
 	amd64)
+		export DOCKER_DEFAULT_PLATFORM=linux/amd64
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-amd64 \
 			--file Dockerfile --build-arg ARCH=amd64 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	arm64v8)
+		export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-arm64v8 \
 			--file Dockerfile --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
 	;;

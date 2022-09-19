@@ -26,7 +26,7 @@ function extract_vsix {
 	
 	VSIX_NAME=$1
 	VSIX_VERSION=$2
-	VSIX_PATH="/srv/extensions/${VSIX_NAME}-${VSIX_VERSION}.vsix"
+	VSIX_PATH="/opt/code-server/extensions/${VSIX_NAME}-${VSIX_VERSION}.vsix"
 	DEST_PATH="/data/home/code/extensions/${VSIX_NAME}-${VSIX_VERSION}"
 	
 	if [ -d "${DEST_PATH}" ]; then
@@ -57,7 +57,7 @@ function install_vsix {
 	
 	VSIX_NAME=$1
 	VSIX_VERSION=$2
-	VSIX_PATH="/srv/extensions/${VSIX_NAME}-${VSIX_VERSION}.vsix"
+	VSIX_PATH="/opt/code-server/extensions/${VSIX_NAME}-${VSIX_VERSION}.vsix"
 	
 	check_vsix_is_installed $VSIX_NAME
 	res=$?
@@ -94,11 +94,11 @@ if [ ! -f /data/home/code/User ]; then
 fi
 
 if [ ! -f /data/home/code/User/settings.json ]; then
-	cp /srv/settings/settings.json /data/home/code/User/settings.json
+	cp /opt/code-server/settings/settings.json /data/home/code/User/settings.json
 	chown www-data:www-data /data/home/code/User/settings.json
 fi
 
 if [ ! -f /data/home/code/User/keybindings.json ]; then
-	cp /srv/settings/keybindings.json /data/home/code/User/keybindings.json
+	cp /opt/code-server/settings/keybindings.json /data/home/code/User/keybindings.json
 	chown www-data:www-data /data/home/code/User/keybindings.json
 fi

@@ -54,11 +54,11 @@ RUN cd ~; \
 	npm install -g vsce; \
 	echo 'Ok'
 
-ADD downloads/code-server-3.11.0-linux-$ARCH.tar.gz /srv
+ADD downloads/code-server-3.11.0-linux-$ARCH.tar.gz /opt
 COPY files /	
 
 RUN cd ~; \
-	ln -s /srv/code-server-3.11.0-linux-$ARCH /usr/lib/code-server; \
+	ln -s /opt/code-server-3.11.0-linux-$ARCH /usr/lib/code-server; \
 	chmod +x /root/*.sh; \
 	usermod -a -G docker www-data; \
 	echo 'Ok'
