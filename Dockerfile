@@ -7,7 +7,8 @@ RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
 	/etc/apt/apt.mirror/mirror.install.sh; \
 	wget -O - https://openresty.org/package/pubkey.gpg | sudo gpg --dearmor -o /usr/share/keyrings/openresty.gpg; \
-	echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/ubuntu jammy main" | sudo tee /etc/apt/sources.list.d/openresty.list > /dev/null; \
+	if [ "$ARCH" = "amd64" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
+	if [ "$ARCH" = "arm64v8" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/arm64/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends mc less nano wget pv zip \
 		unzip supervisor net-tools iputils-ping sudo curl gnupg \

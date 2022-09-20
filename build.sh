@@ -39,11 +39,13 @@ case "$1" in
 	;;
 	
 	stage0-amd64)
+		export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
 		docker build ./ -t bayrell/$IMAGE:stage0-$TAG-amd64 \
 			--file stages/Dockerfile0 --build-arg ARCH=amd64 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	stage0-arm64v8)
+		export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
 		docker build ./ -t bayrell/$IMAGE:stage0-$TAG-arm64v8 \
 			--file stages/Dockerfile0 --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
