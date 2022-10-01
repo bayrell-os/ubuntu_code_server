@@ -26,6 +26,12 @@ case "$1" in
 		fi
 	;;
 	
+	test-cuda)
+		export DOCKER_DEFAULT_PLATFORM=linux/amd64
+		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-cuda \
+			--file Dockerfile.cuda --build-arg ARCH=amd64
+	;;
+	
 	test-amd64)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-amd64 \
@@ -62,6 +68,13 @@ case "$1" in
 			--file Dockerfile --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
+	cuda-amd64)
+		export DOCKER_DEFAULT_PLATFORM=linux/amd64
+		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-cuda \
+			--file Dockerfile.cuda --build-arg ARCH=amd64
+		docker push bayrell/$IMAGE:$VERSION-$SUBVERSION-cuda
+	;;
+	
 	manifest)
 		rm -rf ~/.docker/manifests/docker.io_bayrell_$IMAGE-*
 		
@@ -89,10 +102,11 @@ case "$1" in
 		$0 amd64
 		$0 arm64v8
 		$0 manifest
+		$0 cuda-amd64
 	;;
 	
 	*)
-		echo "Usage: $0 {download|all|amd64|arm64v8|test-amd64|test-arm64v8|stage0-amd64|stage0-arm64v8}"
+		echo "Usage: $0 {download|all|amd64|arm64v8|cuda-amd64|test-amd64|test-arm64v8|test-cuda|stage0-amd64|stage0-arm64v8}"
 		RETVAL=1
 
 esac

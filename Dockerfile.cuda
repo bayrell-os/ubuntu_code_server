@@ -60,3 +60,27 @@ RUN cd ~; \
 	groupadd -r wheel; \
 	usermod -a -G wheel www-data; \
 	echo 'Ok'
+	
+RUN cd ~; \
+	export DEBIAN_FRONTEND='noninteractive'; \
+	curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -; \
+	echo 'deb https://deb.nodesource.com/node_16.x focal main' > /etc/apt/sources.list.d/nodesource.list; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends nodejs; \
+	apt-get clean all; \
+	npm set registry https://registry.npmjs.org/; \
+	echo 'npm set registry https://registry.npmmirror.com/' > /dev/null; \
+	echo 'Update npm'; \
+	npm install -g npm; \
+	echo 'Ok'
+
+ADD downloads/code-server-3.11.0-linux-$ARCH.tar.gz /opt
+COPY files /	
+
+RUN cd ~; \
+	ln -s /opt/code-server-3.11.0-linux-$ARCH /usr/lib/code-server; \
+	chmod +x /root/*.sh; \
+	usermod -a -G docker www-data; \
+	echo 'Ok'
+
+CMD ["/root/run.sh"]

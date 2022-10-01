@@ -1,0 +1,78 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<template>
+	<uid>org.bayrell.ubuntu_code_server</uid>
+	<name>Code server</name>
+	<version>3.11.0-11-cuda-admin</version>
+	<branch>cuda-admin</branch>
+	<date>2022-10-01T00:48:00+06:00</date>
+	<maintainer>Ildar &lt;ildar@bayrell.org&gt;</maintainer>
+	<marketplace>https://cloud.bayrell.org/</marketplace>
+	<xml name="bayrell.org" priority="20">https://cloud.bayrell.org/marketplace/org.bayrell.ubuntu_code_server.xml</xml>
+	<xml name="github.com" priority="10">https://raw.githubusercontent.com/bayrell-os/ubuntu_code_server/main/org.bayrell.ubuntu_code_server_admin.xml</xml>
+	<link name="Docker image">https://hub.docker.com/r/bayrell/ubuntu_code_server</link>
+	<link name="Source code">https://github.com/bayrell-os/ubuntu_code_server</link>
+	<link name="Marketplace">https://cloud.bayrell.org/ru/marketplace/app/org.bayrell.ubuntu_code_server</link>
+	<arch>amd64</arch>
+	<yaml>
+		<services>
+			<_var_app_name_>
+				<image>docker.io/bayrell/ubuntu_code_server:3.11.0-11-cuda</image>
+				<hostname>{{.Service.Name}}.{{.Task.ID}}.local</hostname>
+				<environment>
+					<WWW_UID>_var_www_uid_</WWW_UID>
+					<WWW_GID>_var_www_gid_</WWW_GID>
+					<DOCKER_GID>_var_docker_gid_</DOCKER_GID>
+					<CODE_SERVER_ENABLE_ADMIN>1</CODE_SERVER_ENABLE_ADMIN>
+				</environment>
+				<volumes>_var_app_name_:/data</volumes>
+				<volumes>/var/run/docker.sock:/var/run/docker.sock:ro</volumes>
+			</_var_app_name_>
+		</services>
+		<volumes>
+			<_var_app_name_ />
+		</volumes>
+	</yaml>
+	<variables>
+		<variable>
+			<name>_var_www_uid_</name>
+			<label>www user id</label>
+			<type>string</type>
+			<default>1000</default>
+		</variable>
+		<variable>
+			<name>_var_www_gid_</name>
+			<label>www group id</label>
+			<type>string</type>
+			<default>1000</default>
+		</variable>
+		<variable>
+			<name>_var_docker_gid_</name>
+			<label>Docker group id</label>
+			<type>string</type>
+			<default>113</default>
+		</variable>
+	</variables>
+	<admin>
+		<port>8000</port>
+		<nginx>
+		  location /applications/admin/_var_service_name_/ {
+				proxy_pass http://8000._var_service_name_.cloud_network.example/;
+				proxy_set_header X-ROUTE-PREFIX "/applications/admin/_var_service_name_";
+				rewrite /applications/admin/_var_service_name_/(.*) /$1 break;
+				include proxy_params;
+				proxy_http_version 1.1;
+				proxy_set_header Upgrade $http_upgrade;
+				proxy_set_header Connection "upgrade";
+				break;
+			}
+		</nginx>
+	</admin>
+	<modificators>
+		<li>org.bayrell.modificator.cloud_os</li>
+		<li>org.bayrell.modificator.deploy_hostname</li>
+	</modificators>
+	<patch>
+		<name>Template patch</name>
+		<operations></operations>
+	</patch>
+</template>
