@@ -56,11 +56,14 @@ RUN cd ~; \
 	echo 'Ok'
 
 ADD downloads/code-server-3.11.0-linux-$ARCH.tar.gz /opt
-COPY files /	
+COPY files /
 
 RUN cd ~; \
 	ln -s /opt/code-server-3.11.0-linux-$ARCH /usr/lib/code-server; \
+	ln -s /usr/lib/code-server/bin/code-server /usr/bin/code-server; \
 	chmod +x /root/*.sh; \
+	chmod +x /usr/bin/composer; \
+	chmod +x /usr/bin/install_vsix; \
 	usermod -a -G docker www-data; \
 	echo 'Ok'
 

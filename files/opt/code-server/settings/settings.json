@@ -37,7 +37,18 @@
     "[vue]": {
         "editor.defaultFormatter": "octref.vetur"
     },
+    "files.exclude": {
+        "**/.DS_Store": false,
+        "**/.git": false,
+        "**/.hg": false,
+        "**/.svn": false,
+        "**/CVS": false
+    },
     "telemetry.enableTelemetry": false,
     "explorer.autoReveal": false,
-    "html.autoClosingTags": false
+    "bookmarks.navigateThroughAllFiles": false,
+    "html.autoClosingTags": false,
+    "extensions.autoUpdate": false,
+    "extensions.autoCheckUpdates": true,
+    "jupyter.experiments.optOutFrom": ["NativeNotebookEditor"]
 }

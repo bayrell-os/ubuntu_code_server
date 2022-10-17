@@ -24,11 +24,17 @@ case "$1" in
 		if [ ! -f downloads/code-server-3.11.0-linux-arm64v8.tar.gz ]; then
 			wget https://github.com/coder/code-server/releases/download/v3.11.0/code-server-3.11.0-linux-arm64.tar.gz -O "downloads/code-server-3.11.0-linux-arm64v8.tar.gz"
 		fi
+		if [ ! -f downloads/code-server-3.12.0-linux-amd64.tar.gz ]; then
+			wget https://github.com/coder/code-server/releases/download/v3.12.0/code-server-3.12.0-linux-amd64.tar.gz -O "downloads/code-server-3.12.0-linux-amd64.tar.gz"
+		fi
+		if [ ! -f downloads/code-server-4.7.1-linux-amd64.tar.gz ]; then
+			wget https://github.com/coder/code-server/releases/download/v4.7.1/code-server-4.7.1-linux-amd64.tar.gz -O "downloads/code-server-4.7.1-linux-amd64.tar.gz"
+		fi
 	;;
 	
 	test-cuda)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
-		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-cuda \
+		docker build ./ -t bayrell/$IMAGE:3.12.0-1-$TAG-cuda \
 			--file Dockerfile.cuda --build-arg ARCH=amd64
 	;;
 	
@@ -70,9 +76,9 @@ case "$1" in
 	
 	cuda-amd64)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
-		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-cuda \
+		docker build ./ -t bayrell/$IMAGE:3.12.0-1-cuda \
 			--file Dockerfile.cuda --build-arg ARCH=amd64
-		docker push bayrell/$IMAGE:$VERSION-$SUBVERSION-cuda
+		docker push bayrell/$IMAGE:3.12.0-1-cuda
 	;;
 	
 	manifest)

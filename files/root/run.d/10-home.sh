@@ -27,3 +27,14 @@ if [ ! -d /data/home/bin ]; then
 	mkdir -p /data/home/bin
 	chown -R $WWW_UID:$WWW_GID /data/home/bin
 fi
+
+if [ ! -z $WWW_UID ] && [ ! -z $WWW_GID ]; then
+
+	home_user=`stat -c '%u' /data/home`
+	home_group=`stat -c '%g' /data/home`
+	
+	if [ "$home_user" != "$WWW_UID" ] || [ "$home_group" != "$WWW_GID" ]; then
+		chown -R www-data:www-data /data/home
+	fi
+	
+fi
