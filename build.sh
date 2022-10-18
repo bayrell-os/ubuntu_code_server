@@ -6,8 +6,8 @@ BASE_PATH=`dirname $SCRIPT_PATH`
 
 RETVAL=0
 IMAGE="ubuntu_code_server"
-VERSION=3.11.0
-SUBVERSION=11
+VERSION=3.12.0
+SUBVERSION=1
 TAG=`date '+%Y%m%d_%H%M%S'`
 
 if [ "$APT_MIRROR" = "" ]; then
@@ -18,12 +18,6 @@ case "$1" in
 	
 	download)
 		mkdir -p downloads
-		if [ ! -f downloads/code-server-3.11.0-linux-amd64.tar.gz ]; then
-			wget https://github.com/coder/code-server/releases/download/v3.11.0/code-server-3.11.0-linux-amd64.tar.gz -O "downloads/code-server-3.11.0-linux-amd64.tar.gz"
-		fi
-		if [ ! -f downloads/code-server-3.11.0-linux-arm64v8.tar.gz ]; then
-			wget https://github.com/coder/code-server/releases/download/v3.11.0/code-server-3.11.0-linux-arm64.tar.gz -O "downloads/code-server-3.11.0-linux-arm64v8.tar.gz"
-		fi
 		if [ ! -f downloads/code-server-3.12.0-linux-amd64.tar.gz ]; then
 			wget https://github.com/coder/code-server/releases/download/v3.12.0/code-server-3.12.0-linux-amd64.tar.gz -O "downloads/code-server-3.12.0-linux-amd64.tar.gz"
 		fi
@@ -34,7 +28,7 @@ case "$1" in
 	
 	test-cuda)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
-		docker build ./ -t bayrell/$IMAGE:3.12.0-1-$TAG-cuda \
+		docker build ./ -t bayrell/$VERSION-$SUBVERSION-$TAG-$TAG-cuda \
 			--file Dockerfile.cuda --build-arg ARCH=amd64
 	;;
 	
@@ -76,9 +70,9 @@ case "$1" in
 	
 	cuda-amd64)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
-		docker build ./ -t bayrell/$IMAGE:3.12.0-1-cuda \
+		docker build ./ -t bayrell/$VERSION-$SUBVERSION-$TAG-cuda \
 			--file Dockerfile.cuda --build-arg ARCH=amd64
-		docker push bayrell/$IMAGE:3.12.0-1-cuda
+		docker push bayrell/$VERSION-$SUBVERSION-$TAG-cuda
 	;;
 	
 	manifest)
