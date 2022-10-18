@@ -4,6 +4,7 @@ install_vsix alefragnani.bookmarks 13.0.1
 install_vsix mblode.twig-language 2-0.9.2
 install_vsix mrcrowl.hg 1.7.1
 install_vsix octref.vetur 0.35.0
+install_vsix tht13.html-preview-vscode 0.2.5
 
 
 if [ "$CODE_SERVER_VERSION" == "3.12.0-cuda" ]; then
