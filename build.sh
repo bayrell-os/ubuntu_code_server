@@ -28,7 +28,7 @@ case "$1" in
 	
 	test-cuda)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
-		docker build ./ -t bayrell/$VERSION-$SUBVERSION-$TAG-$TAG-cuda \
+		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-cuda \
 			--file Dockerfile.cuda --build-arg ARCH=amd64
 	;;
 	
@@ -70,9 +70,9 @@ case "$1" in
 	
 	cuda-amd64)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
-		docker build ./ -t bayrell/$VERSION-$SUBVERSION-$TAG-cuda \
+		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-cuda \
 			--file Dockerfile.cuda --build-arg ARCH=amd64
-		docker push bayrell/$VERSION-$SUBVERSION-$TAG-cuda
+		docker push bayrell/$IMAGE:$VERSION-$SUBVERSION-cuda
 	;;
 	
 	manifest)
