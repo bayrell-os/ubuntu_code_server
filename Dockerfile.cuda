@@ -37,7 +37,8 @@ RUN cd ~; \
 		unzip supervisor net-tools iputils-ping sudo curl gnupg \
 		openresty lua-cjson lua-md5 lua-curl luarocks php jq \
 		git ca-certificates python3-pip python3-venv make build-essential \
-		docker.io python3-dev openjdk-8-jre openjdk-11-jre openjdk-17-jre; \
+		docker.io python3-dev openjdk-8-jre openjdk-11-jre openjdk-17-jre \
+		openssh-client rsync lftp; \
 	luarocks install lua-resty-jwt; \
 	pip3 install mercurial; \
 	apt-get clean all; \

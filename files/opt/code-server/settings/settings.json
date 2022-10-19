@@ -48,6 +48,8 @@
     "explorer.autoReveal": false,
     "bookmarks.navigateThroughAllFiles": false,
     "html.autoClosingTags": false,
+    "javascript.autoClosingTags": false,
+    "typescript.autoClosingTags": false,
     "extensions.autoUpdate": false,
     "extensions.autoCheckUpdates": true,
     "jupyter.experiments.optOutFrom": ["NativeNotebookEditor"]

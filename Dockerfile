@@ -14,7 +14,8 @@ RUN cd ~; \
 		unzip supervisor net-tools iputils-ping sudo curl gnupg \
 		openresty lua-cjson lua-md5 lua-curl luarocks php jq \
 		git ca-certificates python3-pip python3-venv make build-essential \
-		docker.io python3-dev openjdk-8-jre openjdk-11-jre openjdk-17-jre; \
+		docker.io python3-dev openjdk-8-jre openjdk-11-jre openjdk-17-jre \
+		openssh-client rsync lftp; \
 	luarocks install lua-resty-jwt; \
 	pip3 install mercurial; \
 	/etc/apt/apt.mirror/mirror.restore.sh; \
@@ -55,11 +56,12 @@ RUN cd ~; \
 	npm install -g vsce; \
 	echo 'Ok'
 
-ADD downloads/code-server-3.11.0-linux-$ARCH.tar.gz /opt
+ENV CODE_SERVER_VERSION=3.12.0-cuda
+ADD downloads/code-server-3.12.0-linux-$ARCH.tar.gz /opt
 COPY files /
 
 RUN cd ~; \
-	ln -s /opt/code-server-3.11.0-linux-$ARCH /usr/lib/code-server; \
+	ln -s /opt/code-server-3.12.0-linux-$ARCH /usr/lib/code-server; \
 	ln -s /usr/lib/code-server/bin/code-server /usr/bin/code-server; \
 	chmod +x /root/*.sh; \
 	chmod +x /usr/bin/composer; \
