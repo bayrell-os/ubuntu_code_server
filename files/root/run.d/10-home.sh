@@ -1,11 +1,11 @@
 if [ ! -z $WWW_UID ]; then
-	sed -i "s|:33:33:|:$WWW_UID:$WWW_GID:|g" /etc/passwd
+	sed -i "s|www-data:x:[0-9]*:[0-9]*:|www-data:x:$WWW_UID:$WWW_GID:|g" /etc/passwd
 fi
 if [ ! -z $WWW_GID ]; then
-	sed -i "s|:33:|:$WWW_GID:|g" /etc/group
+	sed -i "s|www-data:x:[0-9]*:|www-data:x:$WWW_GID:|g" /etc/group
 fi
 if [ ! -z $DOCKER_GID ]; then
-	sed -i "s|:101:|:$DOCKER_GID:|g" /etc/group
+	sed -i "s|docker:x:[0-9]*:|docker:x:$DOCKER_GID:|g" /etc/group
 fi
 if [ ! -d /data/home ]; then
 	mkdir -p /data/home
