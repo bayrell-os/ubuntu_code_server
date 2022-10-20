@@ -73,6 +73,8 @@ case "$1" in
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-cuda \
 			--file Dockerfile.cuda --build-arg ARCH=amd64
 		docker push bayrell/$IMAGE:$VERSION-$SUBVERSION-cuda
+		docker tag bayrell/$IMAGE:$VERSION-$SUBVERSION-cuda bayrell/$IMAGE:$VERSION-cuda
+		docker push bayrell/$IMAGE:$VERSION-cuda
 	;;
 	
 	manifest)
