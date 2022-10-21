@@ -3,6 +3,7 @@
 	<uid>org.bayrell.ubuntu_code_server</uid>
 	<name>Code server</name>
 	<version>4.7.1-1-cuda-vspace</version>
+    <type>vspace</type>
     <branch>cuda-vspace</branch>
 	<date>2022-10-21T18:36:00+06:00</date>
 	<maintainer>Ildar &lt;ildar@bayrell.org&gt;</maintainer>

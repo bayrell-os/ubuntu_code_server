@@ -7,14 +7,6 @@ install_vsix octref.vetur 0.35.0
 install_vsix tht13.html-preview-vscode 0.2.5
 
 
-if [ "$CODE_SERVER_VERSION" == "3.12.0-cuda" ]; then
-
-install_vsix ms-python.python 2021.10.1365161279
-install_vsix ms-toolsai.jupyter 2021.8.12
-
-fi
-
-
 if [ "$CODE_SERVER_VERSION" == "4.7.1-cuda" ]; then
 
 install_vsix ms-python.python 2022.16.1
