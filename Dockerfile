@@ -56,7 +56,7 @@ RUN cd ~; \
 	npm install -g vsce; \
 	echo 'Ok'
 
-ENV CODE_SERVER_VERSION=3.12.0-cuda
+ENV CODE_SERVER_VERSION=3.12.0
 ADD downloads/code-server-3.12.0-linux-$ARCH.tar.gz /opt
 COPY files /
 
