@@ -9,6 +9,8 @@
     "editor.autoClosingBrackets": "never",
     "editor.autoClosingQuotes": "never",
     "typescript.updateImportsOnFileMove.enabled": "always",
+    
+    // https://i.stack.imgur.com/9UVnC.png
     "workbench.colorCustomizations": {
         "terminal.selectionBackground": "#ffffff6e",
         "terminal.background":"#000000",
@@ -29,9 +31,10 @@
         "terminal.ansiBrightRed":"#ff5454",
         "terminal.ansiWhite":"#b2b2b2",
         "terminal.ansiBrightWhite":"#ffffff",
-        "terminal.ansiYellow":"#b26818",
+        "terminal.ansiYellow":"#ffc706",
         "terminal.ansiBrightYellow":"#ffff54"
     },
+    
     "terminal.integrated.sendKeybindingsToShell": true,
     "editor.wordWrap": "on",
     "[vue]": {
