@@ -17,8 +17,10 @@ fi
 
 if [ "$CODE_SERVER_VERSION" == "4.7.1-cuda" ]; then
 
-install_vsix ms-python.python 2022.16.0
-install_vsix ms-toolsai.jupyter 2022.10.110
+install_vsix ms-python.python 2022.16.1
+install_vsix ms-toolsai.jupyter 2022.8.1002460559
+install_vsix ms-toolsai.jupyter-keymap 1.0.0
+install_vsix ms-toolsai.jupyter-renderers 1.0.9
 
 fi
 
