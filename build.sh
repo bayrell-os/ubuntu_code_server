@@ -6,7 +6,7 @@ BASE_PATH=`dirname $SCRIPT_PATH`
 
 RETVAL=0
 IMAGE="ubuntu_code_server"
-VERSION=$VERSION
+VERSION=4.7.1
 SUBVERSION=1
 TAG=`date '+%Y%m%d_%H%M%S'`
 
@@ -20,6 +20,9 @@ case "$1" in
 		mkdir -p downloads
 		if [ ! -f downloads/code-server-$VERSION-linux-amd64.tar.gz ]; then
 			wget https://github.com/coder/code-server/releases/download/v$VERSION/code-server-$VERSION-linux-amd64.tar.gz -O "downloads/code-server-$VERSION-linux-amd64.tar.gz"
+		fi
+		if [ ! -f downloads/code-server-$VERSION-linux-arm64v8.tar.gz ]; then
+			wget https://github.com/coder/code-server/releases/download/v$VERSION/code-server-$VERSION-linux-arm64.tar.gz -O "downloads/code-server-$VERSION-linux-arm64v8.tar.gz"
 		fi
 	;;
 	

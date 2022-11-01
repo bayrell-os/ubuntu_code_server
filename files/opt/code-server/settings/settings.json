@@ -8,6 +8,13 @@
     "editor.trimAutoWhitespace": false,
     "editor.autoClosingBrackets": "never",
     "editor.autoClosingQuotes": "never",
+    "editor.autoSurround": "never",
+    "editor.codeLens": false,
+    "editor.wordWrap": "on",
+    "editor.useTabStops": false,
+    "editor.quickSuggestions": {
+        "strings": false
+    },
     "typescript.updateImportsOnFileMove.enabled": "always",
     
     // https://i.stack.imgur.com/9UVnC.png
@@ -36,7 +43,6 @@
     },
     
     "terminal.integrated.sendKeybindingsToShell": true,
-    "editor.wordWrap": "on",
     "[vue]": {
         "editor.defaultFormatter": "octref.vetur"
     },
