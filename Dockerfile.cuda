@@ -21,8 +21,8 @@ export LANGUAGE\n" >> /etc/bash.bashrc; \
 
 RUN cd ~; \
 	apt-get install -y --no-install-recommends tzdata debconf-utils mc less nano wget pv zip unrar \
-		unzip supervisor net-tools dnsutils iputils-ping sudo curl gnupg linux-tools-common; \
-	apt-get install autoconf automake libtool pkg-config mysql-client sqlite3; \
+		unzip supervisor net-tools dnsutils iputils-ping sudo curl gnupg linux-tools-common man-db; \
+	apt-get install -y --no-install-recommends autoconf automake libtool pkg-config mysql-client sqlite3; \
 	yes | unminimize; \
 	apt-get clean all; \
 	echo "set enable-bracketed-paste off" >> /etc/inputrc; \
@@ -76,7 +76,7 @@ RUN cd ~; \
 	echo 'Ok'
 
 RUN cd ~; \
-	wget https://raw.githubusercontent.com/bayrell/make_git_hash/a7ab96e285acb96476c91e2012ba0bc9555568f9/make_git_hash.py -O "/usr/bin/make_git_hash"; \
+	wget https://raw.githubusercontent.com/bayrell/make_git_hash/e3099f56323ef5901e5c39d87f558f18868ccd49/make_git_hash.py -O "/usr/bin/make_git_hash"; \
 	chmod +x /usr/bin/make_git_hash; \
 	echo 'Ok'
 
