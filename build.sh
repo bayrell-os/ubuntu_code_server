@@ -7,7 +7,7 @@ BASE_PATH=`dirname $SCRIPT_PATH`
 RETVAL=0
 IMAGE="ubuntu_code_server"
 VERSION=4.7.1
-SUBVERSION=1
+SUBVERSION=3
 TAG=`date '+%Y%m%d_%H%M%S'`
 
 if [ "$APT_MIRROR" = "" ]; then
@@ -28,32 +28,20 @@ case "$1" in
 	
 	test-cuda)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
-		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-cuda \
+		DOCKER_BUILDKIT=0 docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-cuda \
 			--file Dockerfile.cuda --build-arg ARCH=amd64
 	;;
 	
 	test-amd64)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
-		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-amd64 \
+		DOCKER_BUILDKIT=0 docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-amd64 \
 			--file Dockerfile --build-arg ARCH=amd64 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	test-arm64v8)
 		export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
-		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-arm64v8 \
+		DOCKER_BUILDKIT=0 docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-arm64v8 \
 			--file Dockerfile --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
-	;;
-	
-	stage0-amd64)
-		export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
-		docker build ./ -t bayrell/$IMAGE:stage0-$TAG-amd64 \
-			--file stages/Dockerfile0 --build-arg ARCH=amd64 --build-arg APT_MIRROR=$APT_MIRROR
-	;;
-	
-	stage0-arm64v8)
-		export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
-		docker build ./ -t bayrell/$IMAGE:stage0-$TAG-arm64v8 \
-			--file stages/Dockerfile0 --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	amd64)
@@ -104,11 +92,11 @@ case "$1" in
 		$0 amd64
 		$0 arm64v8
 		$0 manifest
-		$0 cuda-amd64
+		#$0 cuda-amd64
 	;;
 	
 	*)
-		echo "Usage: $0 {download|all|amd64|arm64v8|cuda-amd64|test-amd64|test-arm64v8|test-cuda|stage0-amd64|stage0-arm64v8}"
+		echo "Usage: $0 {download|all|amd64|arm64v8|cuda-amd64|test-amd64|test-arm64v8|test-cuda}"
 		RETVAL=1
 
 esac
