@@ -1,12 +1,36 @@
 ARG ARCH=amd64
-FROM bayrell/ubuntu:jammy-${ARCH}
-
-ARG APT_MIRROR
+FROM ${ARCH}/ubuntu:focal
 
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
-	/etc/apt/apt.mirror/mirror.install.sh; \
-	wget -O - https://openresty.org/package/pubkey.gpg | sudo gpg --dearmor -o /usr/share/keyrings/openresty.gpg; \
+	apt-get update; \
+	apt-get upgrade; \
+	apt-get install -y --no-install-recommends apt-utils locales ca-certificates; \
+	apt-get clean all; \
+	ln -snf /usr/share/zoneinfo/Asia/Almaty /etc/localtime; \
+	echo "Asia/Almaty" > /etc/timezone; \
+	locale-gen en_US en_US.UTF-8 ru_RU.UTF-8; \
+	update-locale LANG=en_US.utf8 LANGUAGE=en_US:en; \
+	echo "LANG="en_US.utf8" \n\
+LANGUAGE="en_US:en" \n\
+export LANG \n\
+export LANGUAGE\n" >> /etc/bash.bashrc; \
+	echo 'Ok'
+
+RUN cd ~; \
+	apt-get install -y --no-install-recommends tzdata debconf-utils mc less nano wget pv zip unrar \
+		unzip supervisor net-tools dnsutils iputils-ping sudo curl gnupg linux-tools-common man-db; \
+	apt-get install -y --no-install-recommends autoconf automake libtool pkg-config mysql-client sqlite3; \
+	yes | unminimize; \
+	apt-get clean all; \
+	echo "set enable-bracketed-paste off" >> /etc/inputrc; \
+	echo 'Ok'
+
+RUN cd ~; \
+	export DEBIAN_FRONTEND='noninteractive'; \
+	wget https://openresty.org/package/pubkey.gpg; \
+    gpg --dearmor -o /usr/share/keyrings/openresty.gpg pubkey.gpg; \
+    rm pubkey.gpg; \
 	if [ "$ARCH" = "amd64" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
 	if [ "$ARCH" = "arm64v8" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/arm64/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
 	apt-get update; \
@@ -18,7 +42,6 @@ RUN cd ~; \
 		openssh-client rsync lftp; \
 	luarocks install lua-resty-jwt; \
 	pip3 install mercurial; \
-	/etc/apt/apt.mirror/mirror.restore.sh; \
 	apt-get clean all; \
 	sed -i "s|www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin|www-data:x:33:33:www-data:/data/home:/bin/bash|g" /etc/passwd; \
 	ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log; \
@@ -42,18 +65,17 @@ RUN cd ~; \
 	
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
-	/etc/apt/apt.mirror/mirror.install.sh; \
-	curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -; \
-	echo 'deb https://deb.nodesource.com/node_16.x focal main' > /etc/apt/sources.list.d/nodesource.list; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends nodejs; \
-	/etc/apt/apt.mirror/mirror.restore.sh; \
-	apt-get clean all; \
-	npm set registry https://registry.npmjs.org/; \
-	echo 'npm set registry https://registry.npmmirror.com/' > /dev/null; \
-	echo 'Update npm'; \
-	npm install -g npm@8.19.2; \
-	npm install -g vsce; \
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash; \
+	wget https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/nvm.sh -O "/usr/bin/nvm.sh"; \
+	echo "#!/bin/bash" > /usr/bin/nvm; \
+	echo ". /usr/bin/nvm.sh" >> /usr/bin/nvm; \
+	echo "nvm $@" >> /usr/bin/nvm; \
+	chmod +x /usr/bin/nvm; \
+	echo 'Ok'
+
+RUN cd ~; \
+	wget https://raw.githubusercontent.com/bayrell/make_git_hash/befba30cf0548d27c9411ed4ec795db46aeac269/make_git_hash.py -O "/usr/bin/make_git_hash"; \
+	chmod +x /usr/bin/make_git_hash; \
 	echo 'Ok'
 
 ENV CODE_SERVER_VERSION=4.7.1

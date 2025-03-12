@@ -7,6 +7,7 @@ ENV ARCH=${ARCH}
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
 	apt-get update; \
+	apt-get upgrade; \
 	apt-get install -y --no-install-recommends apt-utils locales ca-certificates; \
 	apt-get clean all; \
 	ln -snf /usr/share/zoneinfo/Asia/Almaty /etc/localtime; \
@@ -76,7 +77,7 @@ RUN cd ~; \
 	echo 'Ok'
 
 RUN cd ~; \
-	wget https://raw.githubusercontent.com/bayrell/make_git_hash/e3099f56323ef5901e5c39d87f558f18868ccd49/make_git_hash.py -O "/usr/bin/make_git_hash"; \
+	wget https://raw.githubusercontent.com/bayrell/make_git_hash/befba30cf0548d27c9411ed4ec795db46aeac269/make_git_hash.py -O "/usr/bin/make_git_hash"; \
 	chmod +x /usr/bin/make_git_hash; \
 	echo 'Ok'
 
