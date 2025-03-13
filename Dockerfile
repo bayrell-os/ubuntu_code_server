@@ -29,8 +29,8 @@ RUN cd ~; \
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
 	wget https://openresty.org/package/pubkey.gpg; \
-    gpg --dearmor -o /usr/share/keyrings/openresty.gpg pubkey.gpg; \
-    rm pubkey.gpg; \
+	gpg --dearmor -o /usr/share/keyrings/openresty.gpg pubkey.gpg; \
+	rm pubkey.gpg; \
 	if [ "$ARCH" = "amd64" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
 	if [ "$ARCH" = "arm64v8" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/arm64/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
 	apt-get update; \
