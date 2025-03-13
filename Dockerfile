@@ -62,16 +62,6 @@ RUN cd ~; \
 	groupadd -r wheel; \
 	usermod -a -G wheel www-data; \
 	echo 'Ok'
-	
-RUN cd ~; \
-	export DEBIAN_FRONTEND='noninteractive'; \
-	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash; \
-	wget https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/nvm.sh -O "/usr/bin/nvm.sh"; \
-	echo "#!/bin/bash" > /usr/bin/nvm; \
-	echo ". /usr/bin/nvm.sh" >> /usr/bin/nvm; \
-	echo "nvm $@" >> /usr/bin/nvm; \
-	chmod +x /usr/bin/nvm; \
-	echo 'Ok'
 
 RUN cd ~; \
 	wget https://raw.githubusercontent.com/bayrell/make_git_hash/befba30cf0548d27c9411ed4ec795db46aeac269/make_git_hash.py -O "/usr/bin/make_git_hash"; \
