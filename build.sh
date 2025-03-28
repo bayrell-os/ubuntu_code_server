@@ -6,8 +6,8 @@ BASE_PATH=`dirname $SCRIPT_PATH`
 
 RETVAL=0
 IMAGE="ubuntu_code_server"
-VERSION=4.7.1
-SUBVERSION=3
+VERSION=4.98.2
+SUBVERSION=1
 TAG=`date '+%Y%m%d_%H%M%S'`
 
 if [ "$APT_MIRROR" = "" ]; then

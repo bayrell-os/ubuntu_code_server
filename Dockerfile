@@ -68,12 +68,12 @@ RUN cd ~; \
 	chmod +x /usr/bin/make_git_hash; \
 	echo 'Ok'
 
-ENV CODE_SERVER_VERSION=4.7.1
-ADD downloads/code-server-4.7.1-linux-$ARCH.tar.gz /opt
+ENV CODE_SERVER_VERSION=4.98.2
+ADD downloads/code-server-4.98.2-linux-$ARCH.tar.gz /opt
 COPY files /
 
 RUN cd ~; \
-	ln -s /opt/code-server-4.7.1-linux-$ARCH /usr/lib/code-server; \
+	ln -s /opt/code-server-4.98.2-linux-$ARCH /usr/lib/code-server; \
 	ln -s /usr/lib/code-server/bin/code-server /usr/bin/code-server; \
 	chmod +x /root/*.sh; \
 	chmod +x /usr/bin/composer; \
