@@ -7,7 +7,7 @@ ENV ARCH=${ARCH}
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
 	apt-get update; \
-	apt-get upgrade; \
+	apt-get upgrade -y; \
 	apt-get install -y --no-install-recommends apt-utils locales ca-certificates; \
 	apt-get clean all; \
 	ln -snf /usr/share/zoneinfo/Asia/Almaty /etc/localtime; \
