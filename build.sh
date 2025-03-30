@@ -88,6 +88,43 @@ case "$1" in
 		docker manifest push bayrell/$IMAGE:$VERSION
 	;;
 	
+	upload-github)
+		docker pull bayrell/$IMAGE:$VERSION-arm64v8
+		docker pull bayrell/$IMAGE:$VERSION-amd64
+		docker pull bayrell/$IMAGE:$VERSION-$SUBVERSION-arm64v8
+		docker pull bayrell/$IMAGE:$VERSION-$SUBVERSION-amd64
+		
+		docker tag bayrell/$IMAGE:$VERSION-$SUBVERSION-arm64v8 \
+			ghcr.io/bayrell-os/$IMAGE:$VERSION-$SUBVERSION-arm64v8
+		
+		docker tag bayrell/$IMAGE:$VERSION-$SUBVERSION-amd64 \
+			ghcr.io/bayrell-os/$IMAGE:$VERSION-$SUBVERSION-amd64
+		
+		docker push ghcr.io/bayrell-os/$IMAGE:$VERSION-$SUBVERSION-amd64
+		docker push ghcr.io/bayrell-os/$IMAGE:$VERSION-$SUBVERSION-arm64v8
+		
+		docker manifest create --amend \
+			ghcr.io/bayrell-os/$IMAGE:$VERSION-$SUBVERSION \
+			ghcr.io/bayrell-os/$IMAGE:$VERSION-$SUBVERSION-amd64 \
+			ghcr.io/bayrell-os/$IMAGE:$VERSION-$SUBVERSION-arm64v8
+		docker manifest push --purge ghcr.io/bayrell-os/$IMAGE:$VERSION-$SUBVERSION
+		
+		docker tag bayrell/$IMAGE:$VERSION-arm64v8 \
+			ghcr.io/bayrell-os/$IMAGE:$VERSION-arm64v8
+		
+		docker tag bayrell/$IMAGE:$VERSION-amd64 \
+			ghcr.io/bayrell-os/$IMAGE:$VERSION-amd64
+		
+		docker push ghcr.io/bayrell-os/$IMAGE:$VERSION-amd64
+		docker push ghcr.io/bayrell-os/$IMAGE:$VERSION-arm64v8
+		
+		docker manifest create --amend \
+			ghcr.io/bayrell-os/$IMAGE:$VERSION \
+			ghcr.io/bayrell-os/$IMAGE:$VERSION-amd64 \
+			ghcr.io/bayrell-os/$IMAGE:$VERSION-arm64v8
+		docker manifest push --purge ghcr.io/bayrell-os/$IMAGE:$VERSION
+	;;
+	
 	all)
 		$0 amd64
 		$0 arm64v8
