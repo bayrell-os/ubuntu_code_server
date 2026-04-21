@@ -1,8 +1,15 @@
-ARG ARCH=amd64
-FROM ${ARCH}/ubuntu:jammy
+FROM ubuntu:jammy
 
 ARG ARCH
 ENV ARCH=${ARCH}
+
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "x86_64" ]; then \
+        ARCH="amd64"; \
+    elif [ "$ARCH" = "aarch64" ]; then \
+        ARCH="arm64"; \
+    fi; \
+    echo "ARCH=$ARCH" >> /etc/environment
 
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
@@ -10,8 +17,6 @@ RUN cd ~; \
 	apt-get upgrade -y; \
 	apt-get install -y --no-install-recommends apt-utils locales ca-certificates; \
 	apt-get clean all; \
-	ln -snf /usr/share/zoneinfo/Asia/Almaty /etc/localtime; \
-	echo "Asia/Almaty" > /etc/timezone; \
 	locale-gen en_US en_US.UTF-8 ru_RU.UTF-8; \
 	update-locale LANG=en_US.utf8 LANGUAGE=en_US:en; \
 	echo "LANG="en_US.utf8" \n\
@@ -35,7 +40,7 @@ RUN cd ~; \
 	gpg --dearmor -o /usr/share/keyrings/openresty.gpg pubkey.gpg; \
 	rm pubkey.gpg; \
 	if [ "$ARCH" = "amd64" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
-	if [ "$ARCH" = "arm64v8" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/arm64/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
+	if [ "$ARCH" = "arm64" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/arm64/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends mc less nano wget pv zip \
 		unzip supervisor net-tools iputils-ping sudo curl gnupg \

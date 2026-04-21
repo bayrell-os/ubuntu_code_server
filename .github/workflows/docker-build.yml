@@ -17,8 +17,8 @@ jobs:
         VERSION: 4.98.2
       run: |
         mkdir -p downloads
-        wget https://github.com/coder/code-server/releases/download/v$VERSION/code-server-$VERSION-linux-amd64.tar.gz -O "downloads/code-server-$VERSION-linux-amd64.tar.gz"
-        wget https://github.com/coder/code-server/releases/download/v$VERSION/code-server-$VERSION-linux-arm64.tar.gz -O "downloads/code-server-$VERSION-linux-arm64v8.tar.gz"
+        wget -q https://github.com/coder/code-server/releases/download/v$VERSION/code-server-$VERSION-linux-amd64.tar.gz -O "downloads/code-server-$VERSION-linux-amd64.tar.gz"
+        wget -q https://github.com/coder/code-server/releases/download/v$VERSION/code-server-$VERSION-linux-arm64.tar.gz -O "downloads/code-server-$VERSION-linux-arm64v8.tar.gz"
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3

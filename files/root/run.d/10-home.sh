@@ -27,6 +27,10 @@ if [ ! -d /data/home/bin ]; then
 	mkdir -p /data/home/bin
 	chown -R $WWW_UID:$WWW_GID /data/home/bin
 fi
+if [ ! -z $TZ ]; then
+	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime; \
+	echo "$TZ" > /etc/timezone; \
+fi
 
 if [ ! -z $WWW_UID ] && [ ! -z $WWW_GID ]; then
 
