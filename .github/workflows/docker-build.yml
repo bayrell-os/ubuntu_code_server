@@ -4,14 +4,15 @@ on:
   push:
     tags: ['*.*.*', '*.*.*-*']
 
-permissions:
-  contents: read
-  packages: write
-
 jobs:
+  
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: write
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -57,7 +58,6 @@ jobs:
           type=ref,event=branch
           type=ref,event=pr
           type=ref,event=tag
-          type=sha,prefix=sha-
           type=raw,value=latest,enable={{is_default_branch}}
 
     - name: Extract Docker metadata (CUDA)
@@ -74,7 +74,6 @@ jobs:
           type=ref,event=branch,suffix=-cuda
           type=ref,event=pr,suffix=-cuda
           type=ref,event=tag,suffix=-cuda
-          type=sha,prefix=sha-,suffix=-cuda
           type=raw,value=latest-cuda,enable={{is_default_branch}}
 
     - name: Build and push Docker image (standard)

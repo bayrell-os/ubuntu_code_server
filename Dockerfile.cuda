@@ -40,7 +40,6 @@ RUN cd ~; \
 		docker.io docker-buildx python3-dev openjdk-8-jre openjdk-11-jre openjdk-17-jre \
 		openssh-client rsync lftp libgbm1 fonts-noto-core fonts-noto-color-emoji xkb-data inotify-tools ghostscript poppler-utils; \
 	luarocks install lua-resty-jwt; \
-	pip3 install mercurial; \
 	apt-get clean all; \
 	sed -i "s|www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin|www-data:x:33:33:www-data:/data/home:/bin/bash|g" /etc/passwd; \
 	ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log; \
