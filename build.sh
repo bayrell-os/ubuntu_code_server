@@ -7,7 +7,7 @@ BASE_PATH=`dirname $SCRIPT_PATH`
 RETVAL=0
 IMAGE="ubuntu_code_server"
 VERSION=4.98.2
-SUBVERSION=1
+SUBVERSION=2
 TAG=`date '+%Y%m%d_%H%M%S'`
 
 if [ "$APT_MIRROR" = "" ]; then
@@ -28,19 +28,19 @@ case "$1" in
 	
 	test-cuda)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
-		DOCKER_BUILDKIT=0 docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-cuda \
+		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-cuda \
 			--file Dockerfile.cuda --build-arg ARCH=amd64
 	;;
 	
 	test-amd64)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
-		DOCKER_BUILDKIT=0 docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-amd64 \
+		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-amd64 \
 			--file Dockerfile --build-arg ARCH=amd64 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	
 	test-arm64v8)
 		export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
-		DOCKER_BUILDKIT=0 docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-arm64v8 \
+		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-arm64v8 \
 			--file Dockerfile --build-arg ARCH=arm64v8 --build-arg APT_MIRROR=$APT_MIRROR
 	;;
 	

@@ -16,4 +16,5 @@ fi
 
 if [ "$CODE_SERVER_ENABLE_ADMIN" = "1" ]; then
 	sed -i 's|127.0.0.1:8000|0.0.0.0:8000|g' /etc/supervisor.d/code-server.ini
+	rm -f /etc/supervisor.d/nginx.ini
 fi
