@@ -1,15 +1,6 @@
 FROM nvidia/cuda:11.7.1-base-ubuntu22.04
 
-ARG ARCH
-ENV ARCH=${ARCH}
-
-RUN ARCH=$(uname -m) && \
-    if [ "$ARCH" = "x86_64" ]; then \
-        ARCH="amd64"; \
-    elif [ "$ARCH" = "aarch64" ]; then \
-        ARCH="arm64"; \
-    fi; \
-    echo "ARCH=$ARCH" >> /etc/environment
+ARG TARGETARCH
 
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
@@ -39,8 +30,8 @@ RUN cd ~; \
 	wget https://openresty.org/package/pubkey.gpg; \
 	gpg --dearmor -o /usr/share/keyrings/openresty.gpg pubkey.gpg; \
 	rm pubkey.gpg; \
-	if [ "$ARCH" = "amd64" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
-	if [ "$ARCH" = "arm64" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/arm64/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
+	if [ "$TARGETARCH" = "amd64" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
+	if [ "$TARGETARCH" = "arm64" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/arm64/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends mc less nano wget pv zip \
 		unzip supervisor net-tools iputils-ping sudo curl gnupg \
@@ -73,11 +64,11 @@ RUN cd ~; \
 
 ENV CODE_SERVER_VERSION=4.98.2
 ENV CODE_SERVER_CUDA=1
-ADD downloads/code-server-$CODE_SERVER_VERSION-linux-$ARCH.tar.gz /opt
+ADD downloads/code-server-$CODE_SERVER_VERSION-linux-$TARGETARCH.tar.gz /opt
 COPY files /
 
 RUN cd ~; \
-	ln -s /opt/code-server-4.98.2-linux-$ARCH /usr/lib/code-server; \
+	ln -s /opt/code-server-4.98.2-linux-$TARGETARCH /usr/lib/code-server; \
 	ln -s /usr/lib/code-server/bin/code-server /usr/bin/code-server; \
 	chmod +x /root/*.sh; \
 	chmod +x /usr/bin/install_vsix; \
