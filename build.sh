@@ -25,37 +25,37 @@ case "$1" in
 	test-cuda)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-cuda \
-			--file Dockerfile.cuda
+			--file Dockerfile.cuda --build-arg CODE_SERVER_VERSION=$VERSION
 	;;
 	
 	test-amd64)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-amd64 \
-			--file Dockerfile
+			--file Dockerfile --build-arg CODE_SERVER_VERSION=$VERSION
 	;;
 	
 	test-arm64)
 		export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-arm64 \
-			--file Dockerfile
+			--file Dockerfile --build-arg CODE_SERVER_VERSION=$VERSION
 	;;
 	
 	amd64)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-amd64 \
-			--file Dockerfile
+			--file Dockerfile --build-arg CODE_SERVER_VERSION=$VERSION
 	;;
 	
 	arm64)
 		export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-arm64 \
-			--file Dockerfile
+			--file Dockerfile --build-arg CODE_SERVER_VERSION=$VERSION
 	;;
 	
 	cuda-amd64)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-cuda \
-			--file Dockerfile.cuda
+			--file Dockerfile.cuda --build-arg CODE_SERVER_VERSION=$VERSION
 	;;
 	
 	cuda-push)

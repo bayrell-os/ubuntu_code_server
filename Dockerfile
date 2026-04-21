@@ -61,12 +61,13 @@ RUN cd ~; \
 	usermod -a -G wheel www-data; \
 	echo 'Ok'
 
-ENV CODE_SERVER_VERSION=4.98.2
+ARG CODE_SERVER_VERSION
+ENV CODE_SERVER_VERSION=$CODE_SERVER_VERSION
 ADD downloads/code-server-$CODE_SERVER_VERSION-linux-$TARGETARCH.tar.gz /opt
 COPY files /
 
 RUN cd ~; \
-	ln -s /opt/code-server-4.98.2-linux-$TARGETARCH /usr/lib/code-server; \
+	ln -s /opt/code-server-$CODE_SERVER_VERSION-linux-$TARGETARCH /usr/lib/code-server; \
 	ln -s /usr/lib/code-server/bin/code-server /usr/bin/code-server; \
 	chmod +x /root/*.sh; \
 	chmod +x /usr/bin/install_vsix; \
