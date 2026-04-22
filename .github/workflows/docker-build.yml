@@ -45,7 +45,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Extract Docker metadata (standard)
+    - name: Extract Docker metadata (default)
       id: meta
       uses: docker/metadata-action@v5
       with:
@@ -56,7 +56,7 @@ jobs:
           type=ref,event=branch
           type=ref,event=pr
           type=ref,event=tag
-          type=raw,value=latest-standard
+          type=raw,value=latest-default
           type=raw,value=${{ env.VERSION }}
 
     - name: Extract Docker metadata (CUDA)
@@ -73,7 +73,7 @@ jobs:
           type=raw,value=latest-cuda
           type=raw,value=${{ env.VERSION }}-cuda
 
-    - name: Build and push Docker image (standard)
+    - name: Build and push Docker image (default)
       uses: docker/build-push-action@v5
       with:
         context: .
