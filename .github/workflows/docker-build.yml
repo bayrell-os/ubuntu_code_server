@@ -57,7 +57,7 @@ jobs:
           type=ref,event=pr
           type=ref,event=tag
           type=raw,value=latest
-          type=raw,value=4.98.2
+          type=raw,value=${{ env.VERSION }}
 
     - name: Extract Docker metadata (CUDA)
       id: meta_cuda
@@ -71,12 +71,10 @@ jobs:
           type=ref,event=pr,suffix=-cuda
           type=ref,event=tag,suffix=-cuda
           type=raw,value=latest-cuda
-          type=raw,value=4.98.2-cuda
+          type=raw,value=${{ env.VERSION }}-cuda
 
     - name: Build and push Docker image (standard)
       uses: docker/build-push-action@v5
-      build-args: |
-          CODE_SERVER_VERSION=4.98.2
       with:
         context: .
         push: true
@@ -87,7 +85,7 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         build-args: |
-          CODE_SERVER_VERSION=4.98.2
+          CODE_SERVER_VERSION=${{ env.VERSION }}
 
     - name: Build and push Docker image (CUDA)
       uses: docker/build-push-action@v5
@@ -101,4 +99,4 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         build-args: |
-          CODE_SERVER_VERSION=4.98.2
+          CODE_SERVER_VERSION=${{ env.VERSION }}
