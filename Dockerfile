@@ -1,4 +1,4 @@
-FROM ubuntu:jammy
+FROM ubuntu:resolute
 
 ARG TARGETARCH
 
@@ -27,23 +27,13 @@ RUN cd ~; \
 
 RUN cd ~; \
 	export DEBIAN_FRONTEND='noninteractive'; \
-	wget https://openresty.org/package/pubkey.gpg; \
-	gpg --dearmor -o /usr/share/keyrings/openresty.gpg pubkey.gpg; \
-	rm pubkey.gpg; \
-	if [ "$TARGETARCH" = "amd64" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
-	if [ "$TARGETARCH" = "arm64" ]; then echo "deb [signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/arm64/ubuntu jammy main" > /etc/apt/sources.list.d/openresty.list; fi; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends mc less nano wget pv zip \
-		unzip supervisor net-tools iputils-ping sudo curl gnupg \
-		openresty lua-cjson lua-md5 lua-curl luarocks jq \
-		git ca-certificates python3-pip python3-venv make build-essential \
+		unzip supervisor net-tools iputils-ping sudo curl gnupg jq \
+		git ca-certificates python3-pip python3-venv make cmake build-essential \
 		docker.io docker-buildx python3-dev openjdk-8-jre openjdk-11-jre openjdk-17-jre \
-		openssh-client rsync lftp libgbm1 libxkbcommon0 fonts-noto-core fonts-noto-color-emoji xkb-data inotify-tools ghostscript poppler-utils; \
-	luarocks install lua-resty-jwt; \
+		openssh-client rsync lftp libgbm1 libxkbcommon0 fonts-noto-core fonts-noto-color-emoji fonts-freefont-ttf xkb-data inotify-tools ghostscript poppler-utils ffmpeg xdg-utils; \
 	apt-get clean all; \
-	sed -i "s|www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin|www-data:x:33:33:www-data:/data/home:/bin/bash|g" /etc/passwd; \
-	ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log; \
-	ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log; \
 	test -f /usr/lib/jvm/java-8-openjdk-amd64/bin/java && \
 		ln -sf /usr/lib/jvm/java-8-openjdk-amd64/bin/java /usr/bin/java8; \
 	test -f /usr/lib/jvm/java-11-openjdk-amd64/bin/java && \
@@ -58,7 +48,7 @@ RUN cd ~; \
 		ln -sf /usr/lib/jvm/java-17-openjdk-arm64/bin/java /usr/bin/java17; \
 	echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers; \
 	groupadd -r wheel; \
-	usermod -a -G wheel www-data; \
+	usermod -a -G wheel ubuntu; \
 	echo 'Ok'
 
 ARG CODE_SERVER_VERSION
@@ -71,7 +61,7 @@ RUN cd ~; \
 	ln -s /usr/lib/code-server/bin/code-server /usr/bin/code-server; \
 	chmod +x /root/*.sh; \
 	chmod +x /usr/bin/install_vsix; \
-	usermod -a -G docker www-data; \
+	usermod -a -G docker ubuntu; \
 	echo 'Ok'
 
 CMD ["/root/run.sh"]

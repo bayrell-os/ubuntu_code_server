@@ -6,8 +6,8 @@ BASE_PATH=`dirname $SCRIPT_PATH`
 
 RETVAL=0
 IMAGE="ubuntu_code_server"
-VERSION=4.98.2
-SUBVERSION=2
+VERSION=4.136.2
+SUBVERSION=1
 TAG=`date '+%Y%m%d_%H%M%S'`
 
 case "$1" in
@@ -25,13 +25,13 @@ case "$1" in
 	test-cuda)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-cuda \
-			--file Dockerfile.cuda --build-arg CODE_SERVER_VERSION=$VERSION
+			--file Dockerfile.cuda --build-arg CODE_SERVER_VERSION=$VERSION --progress=plain
 	;;
 	
 	test-amd64)
 		export DOCKER_DEFAULT_PLATFORM=linux/amd64
 		docker build ./ -t bayrell/$IMAGE:$VERSION-$SUBVERSION-$TAG-amd64 \
-			--file Dockerfile --build-arg CODE_SERVER_VERSION=$VERSION
+			--file Dockerfile --build-arg CODE_SERVER_VERSION=$VERSION --progress=plain
 	;;
 	
 	test-arm64)
