@@ -64,10 +64,18 @@
     "editor.unicodeHighlight.includeStrings": false,
     "editor.stickyScroll.enabled": false,
     "workbench.tree.enableStickyScroll": false,
+    "jupyter.experiments.optOutFrom": ["NativeNotebookEditor"],
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.gpuAcceleration": "on",
+    "workbench.startupEditor": "none",
+    "editor.inlayHints.enabled": "off",
+    "editor.unicodeHighlight.nonBasicASCII": false,
+    "editor.pasteAs.preferences": [
+        "text.plain"
+    ],
     "remote.autoForwardPorts": false,
     "chat.commandCenter.enabled": false,
     "window.menuBarVisibility": "classic",
     "window.title": " ",
-    "window.commandCenter": false,
-    "jupyter.experiments.optOutFrom": ["NativeNotebookEditor"]
+    "window.commandCenter": false
 }
