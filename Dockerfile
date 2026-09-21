@@ -47,6 +47,7 @@ RUN cd ~; \
 	test -f /usr/lib/jvm/java-17-openjdk-arm64/bin/java && \
 		ln -sf /usr/lib/jvm/java-17-openjdk-arm64/bin/java /usr/bin/java17; \
 	echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers; \
+	usermod -d /data/home ubuntu; \
 	groupadd -r wheel; \
 	usermod -a -G wheel ubuntu; \
 	echo 'Ok'

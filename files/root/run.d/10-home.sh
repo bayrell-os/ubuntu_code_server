@@ -1,6 +1,6 @@
 if [ ! -d /data/home ]; then
 	mkdir -p /data/home
-	chown -R www-data:www-data /data/home
+	chown -R ubuntu:ubuntu /data/home
 fi
 if [ ! -f /data/home/.profile ]; then
 	cp -f /root/files/.profile /data/home/.profile
